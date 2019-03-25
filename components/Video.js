@@ -16,7 +16,7 @@ import Orientation from "react-native-orientation";
 import Icons from "react-native-vector-icons/MaterialIcons";
 import { Controls } from "./";
 import { checkSource } from "./utils";
-const Win = Dimensions.get("window");
+const Win = Dimensions.get("screen");
 const backgroundColor = "#000";
 
 const styles = StyleSheet.create({
@@ -384,7 +384,9 @@ class Video extends Component {
       inlineOnly,
       playInBackground,
       playWhenInactive,
-      controlDuration
+      controlDuration,
+      showControls,
+      hideControls
     } = this.props;
 
     const inline = {
