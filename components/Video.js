@@ -16,8 +16,8 @@ import Orientation from "react-native-orientation";
 import Icons from "react-native-vector-icons/MaterialIcons";
 import { Controls } from "./";
 import { checkSource } from "./utils";
-const Win = Dimensions.get("screen");
-const screenWidth = Dimensions.get("screen").width;
+let Win = Dimensions.get("screen");
+let screenWidth = Dimensions.get("screen").width;
 const backgroundColor = "#000";
 
 const styles = StyleSheet.create({
