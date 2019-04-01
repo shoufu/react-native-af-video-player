@@ -19,8 +19,8 @@ Trace:
 
 npm manifest: 
   {
-    "name": "react-native-sf-video",
-    "version": "1.0.0",
+    "name": "react-native-hsf-video",
+    "version": "1.0.3",
     "dependencies": {
       "react-native-keep-awake": "^2.0.6",
       "react-native-linear-gradient": "2.3.0",

@@ -17,6 +17,7 @@ import Icons from "react-native-vector-icons/MaterialIcons";
 import { Controls } from "./";
 import { checkSource } from "./utils";
 const Win = Dimensions.get("screen");
+const screenWidth = Dimensions.get("screen").width;
 const backgroundColor = "#000";
 
 const styles = StyleSheet.create({
@@ -54,6 +55,8 @@ const defaultTheme = {
 class Video extends Component {
   constructor(props) {
     super(props);
+    Win = Dimensions.get("screen");
+    screenWidth = Win.width;
     this.state = {
       paused: !props.autoPlay,
       muted: false,
@@ -198,9 +201,6 @@ class Video extends Component {
           );
           break;
         default:
-          type = Alert.alert("提示", "视频播放失败,请稍后重试", [
-            { text: "确定" }
-          ]);
           break;
       }
       return type;
@@ -217,7 +217,7 @@ class Video extends Component {
         setTimeout(() => {
           if (!this.props.lockPortraitOnFsExit)
             Orientation.unlockAllOrientations();
-        }, 1500);
+        }, 0);
       });
       return true;
     }
@@ -277,13 +277,15 @@ class Video extends Component {
           setTimeout(() => {
             if (!this.props.lockPortraitOnFsExit)
               Orientation.unlockAllOrientations();
-          }, 1500);
+          }, 0);
         }
       });
     });
   }
 
   animToFullscreen(height) {
+    // setHeight to original Height
+    height = screenWidth;
     Animated.parallel([
       Animated.timing(this.animFullscreen, { toValue: height, duration: 0 }),
       Animated.timing(this.animInline, { toValue: height, duration: 0 })
@@ -336,20 +338,24 @@ class Video extends Component {
 
   renderError() {
     const { fullScreen } = this.state;
-    const inline = {
-      height: this.animInline,
-      alignSelf: "stretch"
-    };
     const textStyle = { color: "white", padding: 10 };
     return (
       <Animated.View
-        style={[styles.background, fullScreen ? styles.fullScreen : inline]}
+        style={[
+          styles.background,
+          fullScreen
+            ? (styles.fullScreen, { height: this.animFullscreen })
+            : { height: this.animInline }
+        ]}
       >
-        <Text style={textStyle}>重试</Text>
+        <StatusBar hidden={fullScreen} />
+        <Text style={[textStyle, { color: this.props.theme.center }]}>
+          点击重试
+        </Text>
         <Icons
           name="replay"
           size={60}
-          color={this.props.theme}
+          color={this.props.theme.center}
           onPress={() => this.setState({ renderError: false })}
         />
       </Animated.View>
