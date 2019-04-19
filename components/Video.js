@@ -8,7 +8,8 @@ import {
   BackHandler,
   Animated,
   Image,
-  Alert
+  Alert,
+  Platform
 } from "react-native";
 import VideoPlayer from "react-native-video";
 import KeepAwake from "react-native-keep-awake";
@@ -263,8 +264,15 @@ class Video extends Component {
           const initialOrient = Orientation.getInitialOrientation();
           const height = orientation !== initialOrient ? Win.width : Win.height;
           this.props.onFullScreen(this.state.fullScreen);
-          if (this.props.rotateToFullScreen) Orientation.lockToLandscape();
+          if (this.props.rotateToFullScreen) {
+            if (Platform.OS === "android") {
+              Orientation.lockToLandscapeLeft();
+            } else {
+              Orientation.lockToLandscapeRight();
+            }
+          }
           this.animToFullscreen(height);
+          Orientation.unlockAllOrientations();
         } else {
           if (this.props.fullScreenOnly) {
             this.setState({ paused: true }, () =>
