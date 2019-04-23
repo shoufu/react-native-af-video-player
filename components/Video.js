@@ -77,6 +77,7 @@ class Video extends Component {
     this.toggleFS = this.toggleFS.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
+    this.retry = this.retry.bind(this);
   }
 
   componentDidMount() {
@@ -368,6 +369,10 @@ class Video extends Component {
         />
       </Animated.View>
     );
+  }
+
+  retry() {
+    this.setState({ renderError: false });
   }
 
   renderPlayer() {
